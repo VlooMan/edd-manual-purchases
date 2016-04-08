@@ -371,6 +371,23 @@ class EDD_Manual_Purchases {
 								</label>
 							</td>
 						</tr>
+						<tr class="form-field">
+							<th scope="row" valign="top"><?php _e( 'Shipping Address', 'edd-manual-purchases' ); ?></th>
+							<td class="edd-mp-shipping-address">
+								<input type="text" class="small-text" name="shipping-address[address]" id="shipping-address_line1" style="width: 180px;"/>
+								<label for="shipping-address_line1"><?php _e( 'Line 1', 'edd-manual-purchases' ); ?></label><br/>
+								<input type="text" class="small-text" name="shipping-address[address2]" id="shipping-address_line2" style="width: 180px;"/>
+								<label for="shipping-address_line1"><?php _e( 'Line 2', 'edd-manual-purchases' ); ?></label><br/>
+								<input type="text" class="small-text" name="shipping-address[city]" id="shipping-address_city" style="width: 180px;"/>
+								<label for="shipping-address_line1"><?php _e( 'City', 'edd-manual-purchases' ); ?></label><br/>
+								<input type="text" class="small-text" name="shipping-address[state]" id="shipping-address_state" style="width: 180px;"/>
+								<label for="shipping-address_line1"><?php _e( 'State or Province', 'edd-manual-purchases' ); ?></label><br/>
+								<input type="text" class="small-text" name="shipping-address[zip]" id="shipping-address_zip" style="width: 180px;"/>
+								<label for="shipping-address_line1"><?php _e( 'Zip / Postal Code', 'edd-manual-purchases' ); ?></label><br/>
+								<input type="text" class="small-text" name="shipping-address[country]" id="shipping-address_country" style="width: 180px;"/>
+								<label for="shipping-address_line1"><?php _e( 'Country', 'edd-manual-purchases' ); ?></label>
+							</td>
+						</tr>
 						<?php endif; ?>
 						<?php if( class_exists( 'EDD_Wallet' ) ) : ?>
 						<tr class="form-field">
@@ -552,6 +569,11 @@ class EDD_Manual_Purchases {
 
 			if( ! empty( $data['shipped'] ) ) {
 				update_post_meta( $payment->ID, '_edd_payment_shipping_status', '2' );
+			}
+
+			if( ! empty( $data['shipping-address'] ) ) {
+				$payment->user_info['shipping_info'] = array_map( 'sanitize_text_field', $data['shipping-address'] );
+				$payment->save();
 			}
 
 			wp_redirect( admin_url( 'edit.php?post_type=download&page=edd-payment-history&edd-message=payment_created' ) ); exit;
