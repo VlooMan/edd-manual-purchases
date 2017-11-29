@@ -817,7 +817,9 @@ class EDD_Manual_Purchases {
 				update_post_meta( $payment->ID, '_edd_payment_shipping_status', '2' );
 			}
 
-			wp_redirect( admin_url( 'edit.php?post_type=download&page=edd-payment-history&edd-message=payment_created' ) ); exit;
+			if ( apply_filters( 'edd_manual_purchases_create_payment_redirect', true ) ) {
+				wp_redirect( admin_url( 'edit.php?post_type=download&page=edd-payment-history&edd-message=payment_created' ) ); exit;
+			}
 
 		}
 	}
